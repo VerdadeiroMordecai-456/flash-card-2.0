@@ -1,76 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcards - Mitos e Verdades</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Cases • Mitos & Verdades</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Flashcards de Estudo</h1>
-    <nav>
-      <a href="#">Início</a>
-      <a href="#">Categorias</a>
-      <a href="#">Sobre</a>
-    </nav>
-  </header>
+    <div class="app-container">
+        <!-- Header com Saldo -->
+        <header class="header">
+            <div class="balance-container">
+                <div class="balance-label">SALDO</div>
+                <div class="balance-value">$999,999,999</div>
+            </div>
+        </header>
 
-  <main>
-    <section>
-      <h2>Mitos e Verdades</h2>
-      <p class="subtitle">Passe o mouse sobre os cartões para revelar a verdade</p>
-      
-      <div class="cards-container">
-        <!-- Card 1 -->
-        <div class="card">
-          <div class="card-inner">
-            <div class="card-front">
-              <h3>Mito</h3>
-              <p>Beber água gelada ajuda a emagrecer.</p>
-            </div>
-            <div class="card-back">
-              <h3>Verdade</h3>
-              <p>A temperatura da água não influencia a queima de calorias de forma significativa.</p>
-            </div>
-          </div>
-        </div>
+        <!-- Seção de Cases -->
+        <main>
+            <h1 class="section-title">ESCOLHA SUAS CAIXAS</h1>
+            <p class="section-subtitle">Selecione no máximo 3 caixas para abrir</p>
 
-        <!-- Card 2 -->
-        <div class="card">
-          <div class="card-inner">
-            <div class="card-front">
-              <h3>Mito</h3>
-              <p>Chocolate causa espinhas.</p>
+            <div class="cases-grid" id="cases-grid">
+                <!-- Cases serão inseridos via JavaScript -->
             </div>
-            <div class="card-back">
-              <h3>Verdade</h3>
-              <p>Não existem evidências científicas fortes que comprovem essa relação direta.</p>
-            </div>
-          </div>
-        </div>
 
-        <!-- Card 3 -->
-        <div class="card">
-          <div class="card-inner">
-            <div class="card-front">
-              <h3>Mito</h3>
-              <p>Usar boné faz o cabelo cair.</p>
+            <div class="action-container">
+                <button id="open-btn" class="open-btn" disabled>
+                    ABRIR CAIXAS SELECIONADAS
+                </button>
+                <button id="reset-btn" class="reset-btn">Limpar Seleção</button>
             </div>
-            <div class="card-back">
-              <h3>Verdade</h3>
-              <p>O uso de boné não causa queda de cabelo. A calvície tem causas genéticas e hormonais.</p>
+        </main>
+
+        <!-- Área de Resultado (Unboxing) -->
+        <section id="unboxing-section" class="unboxing-section hidden">
+            <h2 class="section-title">RESULTADO DO UNBOXING</h2>
+            <div class="cards-container" id="cards-container">
+                <!-- Flashcards serão inseridos aqui -->
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+        </section>
+    </div>
 
-  <footer>
-    <p>© 2025 - Flashcards Educativos</p>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
