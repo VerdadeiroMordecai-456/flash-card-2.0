@@ -1,180 +1,269 @@
-// Dados dos flashcards (Mitos e Verdades)
-const casesData = [
-    {
-        id: 1,
-        category: "Saúde & Fitness",
-        name: "Vitality Case",
+// Dados dos flashcards
+const categoriesData = {
+    ciencia: {
+        name: "Ciência no Cotidiano",
+        price: 250,
         color: "#00ff9d",
-        myth: "Beber água gelada queima mais calorias que água em temperatura ambiente.",
-        mythImage: "https://images.unsplash.com/photo-1551024709-8f23befc6f87",
-        truth: "A diferença calórica é mínima (cerca de 8-10 calorias). O corpo precisa aquecer a água, mas o gasto energético é insignificante.",
-        truthImage: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+        items: [
+            {
+                myth: "A água quente congela mais rápido que a fria",
+                truth: "Em algumas condições, a água quente pode congelar mais rápido (Efeito Mpemba), mas não é regra geral.",
+                mythImg: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+                truthImg: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05"
+            },
+            {
+                myth: "Usamos apenas 10% do nosso cérebro",
+                truth: "Usamos praticamente 100% do cérebro em diferentes momentos do dia.",
+                mythImg: "https://images.unsplash.com/photo-1559757175-5700dde675bc",
+                truthImg: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
+            }
+        ]
     },
-    {
-        id: 2,
-        category: "Enriquecimento & Finanças",
-        name: "Wealth Case",
-        color: "#ffd700",
-        myth: "Investir em criptomoedas é o caminho mais rápido para ficar rico.",
-        mythImage: "https://images.unsplash.com/photo-1621761191319-c6fb2f6453a0",
-        truth: "A maioria dos investidores em cripto perde dinheiro. O mercado é extremamente volátil e especulativo.",
-        truthImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+    saude: {
+        name: "Saúde & Fitness",
+        price: 500,
+        color: "#ff3b9d",
+        items: [
+            {
+                myth: "Beber 8 copos de água por dia é obrigatório",
+                truth: "A quantidade ideal varia de pessoa para pessoa. Não existe uma regra fixa.",
+                mythImg: "https://images.unsplash.com/photo-1559757148-5c3506b0e8a3",
+                truthImg: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b"
+            }
+        ]
     },
-    {
-        id: 3,
-        category: "Tecnologia & IA",
-        name: "Neural Case",
-        color: "#b967ff",
-        myth: "A Inteligência Artificial vai eliminar a maioria dos empregos em menos de 10 anos.",
-        mythImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-        truth: "A IA tende a transformar empregos em vez de eliminá-los completamente. Novas profissões surgem conforme a tecnologia avança.",
-        truthImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e"
+    historia: {
+        name: "História Oculta & Conspirações",
+        price: 1200,
+        color: "#a855f7",
+        items: [
+            {
+                myth: "A Terra é plana",
+                truth: "A Terra é esférica. Existem diversas provas científicas e fotográficas.",
+                mythImg: "https://images.unsplash.com/photo-1617791160505-6f00504e3519",
+                truthImg: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4"
+            }
+        ]
     },
-    {
-        id: 4,
-        category: "História Oculta",
-        name: "Conspiracy Case",
-        color: "#ff6b6b",
-        myth: "A Terra é plana e as fotos da NASA são todas editadas.",
-        mythImage: "https://images.unsplash.com/photo-1614732414444-096e5f1122d5",
-        truth: "Existem inúmeras evidências científicas e observações que comprovam que a Terra é esférica.",
-        truthImage: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"
+    tecnologia: {
+        name: "Tecnologia & IA",
+        price: 3500,
+        color: "#60a5fa",
+        items: [
+            {
+                myth: "A IA vai dominar o mundo em breve",
+                truth: "A IA atual é especializada e depende de humanos. Não possui consciência.",
+                mythImg: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+                truthImg: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485"
+            }
+        ]
     },
-    {
-        id: 5,
-        category: "Ciência no Cotidiano",
-        name: "Quantum Case",
-        color: "#00d4ff",
-        myth: "Esquentar comida no micro-ondas deixa os alimentos radioativos.",
-        mythImage: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136",
-        truth: "Micro-ondas aquecem os alimentos através de vibração molecular. Não deixam resíduos radioativos.",
-        truthImage: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136"
+    financas: {
+        name: "Enriquecimento & Finanças",
+        price: 7000,
+        color: "#facc15",
+        items: [
+            {
+                myth: "Investir na bolsa é igual a apostar",
+                truth: "Investir com análise e diversificação é diferente de apostar.",
+                mythImg: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3",
+                truthImg: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+            }
+        ]
     }
-];
+};
 
-let selectedCases = [];
+let balance = 100000;
+const balanceEl = document.getElementById('balance');
 
-// Renderizar cases
-function renderCases() {
-    const grid = document.getElementById('cases-grid');
-    grid.innerHTML = '';
+// Atualiza saldo na tela
+function updateBalance() {
+    balanceEl.textContent = '$' + balance.toLocaleString();
+}
 
-    casesData.forEach(caseItem => {
+// Cria os cards de categoria
+function createCategoryCards() {
+    const grid = document.getElementById('category-grid');
+    
+    Object.keys(categoriesData).forEach(key => {
+        const cat = categoriesData[key];
+        
         const card = document.createElement('div');
-        card.className = 'case-card';
+        card.className = 'category-card';
         card.innerHTML = `
-            <div class="category">${caseItem.category}</div>
-            <div class="case-name" style="color: ${caseItem.color}">${caseItem.name}</div>
-            <div style="margin-top: 15px; font-size: 13px; color: #666;">Clique para selecionar</div>
+            <h3>${cat.name}</h3>
+            <div class="price">$${cat.price} por caixa</div>
+            
+            <div class="quantity-buttons">
+                <button data-qty="1">Abrir 1</button>
+                <button data-qty="2">Abrir 2</button>
+                <button data-qty="3">Abrir 3</button>
+            </div>
+            
+            <button class="open-btn">Abrir Caixas</button>
         `;
+        
+        const buttons = card.querySelectorAll('.quantity-buttons button');
+        const openBtn = card.querySelector('.open-btn');
+        let selectedQty = 1;
 
-        card.addEventListener('click', () => toggleCaseSelection(card, caseItem));
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.style.background = '');
+                btn.style.background = 'var(--neon-green)';
+                btn.style.color = '#000';
+                selectedQty = parseInt(btn.dataset.qty);
+            });
+        });
+
+        openBtn.addEventListener('click', () => {
+            if (!selectedQty) selectedQty = 1;
+            openCases(key, selectedQty);
+        });
+
         grid.appendChild(card);
     });
 }
 
-function toggleCaseSelection(cardElement, caseItem) {
-    const index = selectedCases.findIndex(c => c.id === caseItem.id);
+// Abre as caixas
+function openCases(categoryKey, quantity) {
+    const category = categoriesData[categoryKey];
+    const totalCost = category.price * quantity;
 
-    if (index !== -1) {
-        // Desselecionar
-        selectedCases.splice(index, 1);
-        cardElement.classList.remove('selected');
-    } else {
-        // Selecionar
-        if (selectedCases.length >= 3) {
-            alert('Você só pode selecionar no máximo 3 caixas.');
-            return;
-        }
-        selectedCases.push(caseItem);
-        cardElement.classList.add('selected');
+    if (balance < totalCost) {
+        showAlert(`Saldo insuficiente! Você precisa de $${totalCost}.`);
+        return;
     }
 
-    updateOpenButton();
-}
+    // Debita o saldo
+    balance -= totalCost;
+    updateBalance();
 
-function updateOpenButton() {
-    const btn = document.getElementById('open-btn');
-    btn.disabled = selectedCases.length === 0;
-}
+    // Mostra a roleta
+    const rouletteSection = document.getElementById('roulette-section');
+    rouletteSection.classList.remove('hidden');
 
-function openCases() {
-    const unboxingSection = document.getElementById('unboxing-section');
-    const cardsContainer = document.getElementById('cards-container');
+    // Abre as caixas uma por uma
+    let count = 0;
     
-    cardsContainer.innerHTML = '';
-    unboxingSection.classList.remove('hidden');
-
-    // Simular animação de abertura
-    selectedCases.forEach((caseItem, index) => {
-        setTimeout(() => {
-            createFlashcard(caseItem, cardsContainer);
-        }, index * 400);
-    });
+    function openNext() {
+        if (count >= quantity) {
+            rouletteSection.classList.add('hidden');
+            return;
+        }
+        
+        count++;
+        spinRoulette(categoryKey, () => {
+            setTimeout(openNext, 800);
+        });
+    }
+    
+    openNext();
 }
 
-function createFlashcard(caseItem, container) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'card-wrapper';
+// Animação da roleta
+function spinRoulette(categoryKey, callback) {
+    const category = categoriesData[categoryKey];
+    const strip = document.getElementById('roulette-strip');
+    const rouletteSection = document.getElementById('roulette-section');
+    
+    strip.innerHTML = '';
+    strip.style.transition = 'none';
+    strip.style.transform = 'translateX(0)';
 
-    wrapper.innerHTML = `
-        <div class="card" id="card-${caseItem.id}">
-            <!-- Frente (Mito) -->
-            <div class="card-face card-front">
-                <img src="${caseItem.mythImage}" alt="Mito">
-                <div class="card-content">
-                    <h3>MITO</h3>
-                    <p>${caseItem.myth}</p>
-                    <button class="reveal-btn" style="margin-top: auto; padding: 10px; background: #ff2d55; color: white; border: none; border-radius: 8px; cursor: pointer;">
-                        RECEBER VERDADE
-                    </button>
+    const itemsCount = 42;
+    const winningIndex = Math.floor(itemsCount * 0.65);
+    
+    // Cria itens da roleta
+    for (let i = 0; i < itemsCount; i++) {
+        const item = document.createElement('div');
+        item.className = 'roulette-item';
+        item.textContent = '?';
+        strip.appendChild(item);
+    }
+
+    // Força reflow
+    void strip.offsetWidth;
+
+    // Posição final
+    const itemWidth = 168;
+    const containerWidth = 1100;
+    const targetPosition = (winningIndex * itemWidth) - (containerWidth / 2) + 80;
+    
+    strip.style.transition = 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
+    strip.style.transform = `translateX(-${targetPosition}px)`;
+
+    // Quando terminar a animação
+    setTimeout(() => {
+        const randomItem = category.items[Math.floor(Math.random() * category.items.length)];
+        createFlashcard(randomItem);
+        
+        if (callback) callback();
+    }, 4200);
+}
+
+// Cria o flashcard
+function createFlashcard(item) {
+    const container = document.getElementById('cards-container');
+    
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    
+    card.innerHTML = `
+        <div class="flashcard-inner">
+            <div class="flashcard-front">
+                <img src="${item.mythImg}" alt="Mito">
+                <div class="flashcard-content">
+                    <h4>Mito</h4>
+                    <p>${item.myth}</p>
+                    <button class="reveal-btn">Receber Verdade</button>
                 </div>
             </div>
-            
-            <!-- Verso (Verdade) -->
-            <div class="card-face card-back">
-                <img src="${caseItem.truthImage}" alt="Verdade">
-                <div class="card-content">
-                    <h3>VERDADE</h3>
-                    <p>${caseItem.truth}</p>
-                    <div class="badge verdade">FATO DESMISTIFICADO</div>
+            <div class="flashcard-back">
+                <img src="${item.truthImg}" alt="Verdade">
+                <div class="flashcard-content">
+                    <h4>A Verdade</h4>
+                    <p>${item.truth}</p>
+                    <span class="fact-badge">FATO DESMISTIFICADO</span>
                 </div>
             </div>
         </div>
     `;
 
-    container.appendChild(wrapper);
-
-    // Adicionar evento de flip
-    const card = wrapper.querySelector('.card');
-    const revealBtn = wrapper.querySelector('.reveal-btn');
-
+    const revealBtn = card.querySelector('.reveal-btn');
     revealBtn.addEventListener('click', (e) => {
         e.stopImmediatePropagation();
         card.classList.add('flipped');
     });
 
-    // Permitir clicar no card também
     card.addEventListener('click', () => {
-        if (!card.classList.contains('flipped')) {
-            card.classList.add('flipped');
-        }
+        card.classList.toggle('flipped');
     });
+
+    container.appendChild(card);
 }
 
-// Event Listeners
-document.getElementById('open-btn').addEventListener('click', openCases);
+// Alerta visual
+function showAlert(message) {
+    const modal = document.getElementById('alert-modal');
+    const msgEl = document.getElementById('alert-message');
+    msgEl.textContent = message;
+    modal.classList.remove('hidden');
 
-document.getElementById('reset-btn').addEventListener('click', () => {
-    // Limpar seleção
-    document.querySelectorAll('.case-card').forEach(card => card.classList.remove('selected'));
-    selectedCases = [];
-    updateOpenButton();
-    
-    // Esconder seção de unboxing
-    document.getElementById('unboxing-section').classList.add('hidden');
+    document.getElementById('close-alert').onclick = () => {
+        modal.classList.add('hidden');
+    };
+}
+
+// Limpar resultados
+document.getElementById('clear-results').addEventListener('click', () => {
     document.getElementById('cards-container').innerHTML = '';
 });
 
 // Inicialização
-renderCases();
+function init() {
+    updateBalance();
+    createCategoryCards();
+}
+
+init();
